@@ -1,5 +1,7 @@
 from flask import Flask, jsonify, request
 from redis_connector import redis_connector
+import os
+
 import redis
 import json
 import requests
@@ -11,6 +13,7 @@ from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
+app.config["DEBUG"] = True
 
 redis_client = redis_connector()
 # Service Registry Class
@@ -114,6 +117,9 @@ def perform_health_checks():
 # Schedule health checks every 1 minute
 schedule.every(1).minutes.do(perform_health_checks)
 
+
+
+
 # Function to run the scheduled tasks in a separate thread
 def run_scheduler():
     while True:
@@ -126,6 +132,4 @@ if __name__ == '__main__':
     scheduler_thread.start()
 
 
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5001)
+app.run(host=os.getenv('IP', '0.0.0.0'), port=int(os.getenv('PORT', 8080)))
