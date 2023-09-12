@@ -1,0 +1,7 @@
+Flask==2.3.3
+Flask_Cors==4.0.0
+PyYAML==6.0.1
+PyYAML==6.0.1
+redis==5.0.0
+Requests==2.31.0
+schedule==1.2.0
